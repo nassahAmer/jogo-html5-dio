@@ -44,6 +44,7 @@ function start() {
     moveinimigo1();
     moveinimigo2();
     moveamigo();
+    colisao();
 	
 	} // Fim da função loop()
 
@@ -165,5 +166,50 @@ function start() {
             }
         } // Fecha executaDisparo()
     } // Fecha disparo()
+
+    function colisao() {
+        //Abaixo: colisao1 recebe resultado da função jquery collision
+        var colisao1 = ($("#jogador").collision($("#inimigo1")));
+        // verificando colisão jogador com o inimigo1
+        if (colisao1.length>0) {
+            //Abaixo: no momento da explosão, chamado a explosao1 no lugar atual do inimigo1
+            inimigo1X = parseInt($("#inimigo1").css("left"));
+	        inimigo1Y = parseInt($("#inimigo1").css("top"));
+	        explosao1(inimigo1X,inimigo1Y);
+		
+            
+            //Abaixo: troca posição do inimigo1 quando há colisão
+            posicaoY = parseInt(Math.random() * 334);
+            $("#inimigo1").css("left",694);
+            $("#inimigo1").css("top",posicaoY);
+        }
+        //Para teste utilizar: console.log(colisao1);    
+    } //Fim da função colisao()
+
+    //Explosão 1
+    function explosao1(inimigo1X,inimigo1Y) {
+	    $("#fundoGame").append("<div id='explosao1'></div"); //criando div explosao1
+        $("#explosao1").css("background-image", "url(imgs/explosao.png)");//indicando imagem background da div explosao1
+        
+	    var div=$("#explosao1");//criando variável div para facilitar o chamado
+	    div.css("top", inimigo1Y);
+        div.css("left", inimigo1X);
+        /* 
+        Abaixo: animação jquery tem inicio no tamanho da imagem
+        até um total de width:200 e opacity:0
+         */
+        div.animate({width:200, opacity:0}, "slow");
+        
+        //Abaixo: variável de tempo para remover explosao1 após 2s
+	    var tempoExplosao=window.setInterval(removeExplosao, 2000);
+	
+		function removeExplosao() {//função para remover a explosão após o uso da div
+			
+			div.remove();
+			window.clearInterval(tempoExplosao);
+			tempoExplosao=null;
+			
+		}		
+	} // Fim da função explosao1()
 
 } // Fim da função start()
