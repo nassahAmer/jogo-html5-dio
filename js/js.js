@@ -8,6 +8,8 @@ function start() {
     $("#fundoGame").append("<div id='amigo' class='anima3'></div>");
 
     //Principais variáveis do jogo
+
+    var podeAtirar = true;
 	
 	var jogo = {}
 	var velocidade=5;
@@ -82,7 +84,8 @@ function start() {
         
         if (jogo.pressionou[TECLA.D]) {
             
-            //Chama função Disparo	
+            //Chama função Disparo
+            disparo();
         }
     
     } // fim da função movejogador()
@@ -124,5 +127,43 @@ function start() {
         }
     
     } // fim da função moveamigo()
+
+    function disparo() {
+	
+        if (podeAtirar==true) {
+            
+            podeAtirar=false;
+        
+            topo = parseInt($("#jogador").css("top")) //Posição top do jogador
+            posicaoX= parseInt($("#jogador").css("left")) //Posição left do jogador
+            //Abaixo: recebe a posição inicial quando for disparado (tecla D)
+            tiroX = posicaoX + 190;
+            topoTiro=topo+37;
+            //Abaixo: mostra a div disparo
+            $("#fundoGame").append("<div id='disparo'></div");
+            //Abaixo: mostra a posição inicial quando for disparado
+            $("#disparo").css("top",topoTiro);
+            $("#disparo").css("left",tiroX);
+            //Abaixo: Variável de tempo, executaDisparo a cada 30 segundos
+            var tempoDisparo=window.setInterval(executaDisparo, 60);
+        
+        } //Fecha podeAtirar
+     
+        function executaDisparo() {
+            //Abaixo: recebe posição left do disparo
+            posicaoX = parseInt($("#disparo").css("left"));
+            //Abaixo: aumetna 15 na posição left para o disparo 'se movimentar'
+            $("#disparo").css("left",posicaoX+15); 
+            //Abaixo: verifica se o disparo chegou ao final da tela
+            if (posicaoX>900) {
+                            
+                window.clearInterval(tempoDisparo);//Para a variável de tempo
+                tempoDisparo=null;
+                $("#disparo").remove();//Remove a imagem do disparo
+                podeAtirar=true;
+                        
+            }
+        } // Fecha executaDisparo()
+    } // Fecha disparo()
 
 } // Fim da função start()
