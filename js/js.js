@@ -6,11 +6,17 @@ function start() {
     $("#fundoGame").append("<div id='inimigo1' class='anima2'></div>");
     $("#fundoGame").append("<div id='inimigo2'></div>");
     $("#fundoGame").append("<div id='amigo' class='anima3'></div>");
+    $("#fundoGame").append("<div id='placar'></div>");
 
     //Principais variáveis do jogo
 
     var podeAtirar = true;
     var fimdejogo=false;
+
+    //Variáveis de placar
+    var pontos=0;
+    var salvos=0;
+    var perdidos=0;
 	
 	var jogo = {}
 	var velocidade=5;
@@ -46,6 +52,7 @@ function start() {
     moveinimigo2();
     moveamigo();
     colisao();
+    placar();
 	
 	} // Fim da função loop()
 
@@ -206,7 +213,9 @@ function start() {
         }
 
         // Disparo com o inimigo1 = verificando colisão
-	    if (colisao3.length>0) {		
+	    if (colisao3.length>0) {
+            
+            pontos=pontos+100; //aumenta o placar
 		
             inimigo1X = parseInt($("#inimigo1").css("left"));
             inimigo1Y = parseInt($("#inimigo1").css("top"));
@@ -223,6 +232,8 @@ function start() {
 
         // Disparo com o inimigo2 = verificando colisão	
         if (colisao4.length>0) {
+
+            pontos=pontos+50; //aumenta placar
             
             inimigo2X = parseInt($("#inimigo2").css("left"));
             inimigo2Y = parseInt($("#inimigo2").css("top"));
@@ -235,13 +246,16 @@ function start() {
         }
 
         // jogador com o amigo = verificando colisão			
-        if (colisao5.length>0) {            
+        if (colisao5.length>0) {  
+            salvos++; //dois saltos          
             reposicionaAmigo();
             $("#amigo").remove();
         }
 
         //Inimigo2 com o amigo = verificando colisão
         if (colisao6.length>0) {
+
+            perdidos++; //placar amigo foi atropelado(inimigo2)
                 
             amigoX = parseInt($("#amigo").css("left"));
             amigoY = parseInt($("#amigo").css("top"));
@@ -349,5 +363,11 @@ function start() {
             tempoExplosao3=null;           
         }
     } // Fim da função explosao3
+
+    function placar() {
+	
+        $("#placar").html("<h2> Pontos: " + pontos + " Salvos: " + salvos + " Perdidos: " + perdidos + "</h2>");
+        
+    } //fim da função placar()
 
 } // Fim da função start()
