@@ -7,6 +7,7 @@ function start() {
     $("#fundoGame").append("<div id='inimigo2'></div>");
     $("#fundoGame").append("<div id='amigo' class='anima3'></div>");
     $("#fundoGame").append("<div id='placar'></div>");
+    $("#fundoGame").append("<div id='energia'></div>");
 
     //Principais variáveis do jogo
 
@@ -17,7 +18,10 @@ function start() {
     var pontos=0;
     var salvos=0;
     var perdidos=0;
-	
+    
+    //Var de energia
+    var energiaAtual=3;
+    
 	var jogo = {}
 	var velocidade=5;
     var posicaoY = parseInt(Math.random() * 334);
@@ -53,6 +57,7 @@ function start() {
     moveamigo();
     colisao();
     placar();
+    energia();
 	
 	} // Fim da função loop()
 
@@ -186,6 +191,9 @@ function start() {
         
         // verificando colisão jogador com o inimigo1
         if (colisao1.length>0) {
+
+            energiaAtual--; //diminui 1 de energia
+
             //Abaixo: no momento da explosão, chamado a explosao1 no lugar atual do inimigo1
             inimigo1X = parseInt($("#inimigo1").css("left"));
 	        inimigo1Y = parseInt($("#inimigo1").css("top"));
@@ -200,6 +208,8 @@ function start() {
         
         // jogador com o inimigo2 = verificando colisão
         if (colisao2.length>0) {
+
+            energiaAtual--; //diminui 1 de energia
         
             inimigo2X = parseInt($("#inimigo2").css("left"));
             inimigo2Y = parseInt($("#inimigo2").css("top"));
@@ -214,6 +224,8 @@ function start() {
 
         // Disparo com o inimigo1 = verificando colisão
 	    if (colisao3.length>0) {
+
+            velocidade=velocidade+0.3; //aumenta veloc do inimigo1 quando ele renasce
             
             pontos=pontos+100; //aumenta o placar
 		
@@ -369,5 +381,32 @@ function start() {
         $("#placar").html("<h2> Pontos: " + pontos + " Salvos: " + salvos + " Perdidos: " + perdidos + "</h2>");
         
     } //fim da função placar()
+
+    //Barra de energia
+    function energia() {
+        
+        if (energiaAtual==3) {
+            
+            $("#energia").css("background-image", "url(imgs/energia3.png)");
+        }
+
+        if (energiaAtual==2) {
+            
+            $("#energia").css("background-image", "url(imgs/energia2.png)");
+        }
+
+        if (energiaAtual==1) {
+            
+            $("#energia").css("background-image", "url(imgs/energia1.png)");
+        }
+
+        if (energiaAtual==0) {
+            
+            $("#energia").css("background-image", "url(imgs/energia0.png)");
+            
+            //Game Over
+        }
+
+    } // Fim da função energia()
 
 } // Fim da função start()
