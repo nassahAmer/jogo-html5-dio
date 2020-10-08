@@ -33,8 +33,20 @@ function start() {
     
     jogo.pressionou = [];
 
+    /* Sons do jogo */
+    var somDisparo=document.getElementById("somDisparo");
+    var somExplosao=document.getElementById("somExplosao");
+    var musica=document.getElementById("musica");
+    var somGameover=document.getElementById("somGameover");
+    var somPerdido=document.getElementById("somPerdido");
+    var somResgate=document.getElementById("somResgate");
+
+    //Evento que deixa a música em loop
+    musica.play();
+    musica.addEventListener("ended", function(){ musica.currentTime = 0; musica.play(); }, false);
+    
+
     //Verifica se o usuário pressionou alguma tecla	
-	
 	$(document).keydown(function(e){
         jogo.pressionou[e.which] = true;
     });
@@ -145,6 +157,8 @@ function start() {
     function disparo() {
 	
         if (podeAtirar==true) {
+
+            somDisparo.play();
             
             podeAtirar=false;
         
@@ -258,7 +272,8 @@ function start() {
         }
 
         // jogador com o amigo = verificando colisão			
-        if (colisao5.length>0) {  
+        if (colisao5.length>0) { 
+            somResgate.play(); 
             salvos++; //dois saltos          
             reposicionaAmigo();
             $("#amigo").remove();
@@ -283,6 +298,7 @@ function start() {
 
     //Explosão 1
     function explosao1(inimigo1X,inimigo1Y) {
+        somExplosao.play();
 	    $("#fundoGame").append("<div id='explosao1'></div"); //criando div explosao1
         $("#explosao1").css("background-image", "url(imgs/explosao.png)");//indicando imagem background da div explosao1
         
@@ -327,6 +343,7 @@ function start() {
 
     //Explosão2	
 	function explosao2(inimigo2X,inimigo2Y) {
+        somExplosao.play();
 	
         $("#fundoGame").append("<div id='explosao2'></div");
         $("#explosao2").css("background-image", "url(imgs/explosao.png)");
@@ -364,6 +381,8 @@ function start() {
 
     //Explosão3	
     function explosao3(amigoX,amigoY) {
+
+        somPerdido.play();
         $("#fundoGame").append("<div id='explosao3' class='anima4'></div");
         $("#explosao3").css("top",amigoY);
         $("#explosao3").css("left",amigoX);
