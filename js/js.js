@@ -234,10 +234,22 @@ function start() {
             reposicionaInimigo2();              
         }
 
-        // jogador com o amigo		
+        // jogador com o amigo = verificando colisão			
         if (colisao5.length>0) {            
             reposicionaAmigo();
             $("#amigo").remove();
+        }
+
+        //Inimigo2 com o amigo = verificando colisão
+        if (colisao6.length>0) {
+                
+            amigoX = parseInt($("#amigo").css("left"));
+            amigoY = parseInt($("#amigo").css("top"));
+            explosao3(amigoX,amigoY);
+            $("#amigo").remove();
+                    
+            reposicionaAmigo();
+                    
         }
 
         //Para teste utilizar: console.log(colisao1);    
@@ -287,8 +299,7 @@ function start() {
         }	
     } // Fim da função reposicionaInimigo2()
 
-    //Explosão2
-	
+    //Explosão2	
 	function explosao2(inimigo2X,inimigo2Y) {
 	
         $("#fundoGame").append("<div id='explosao2'></div");
@@ -323,6 +334,20 @@ function start() {
         
             }            
         }        
-    } // Fim da função reposicionaAmigo()    
+    } // Fim da função reposicionaAmigo()
+
+    //Explosão3	
+    function explosao3(amigoX,amigoY) {
+        $("#fundoGame").append("<div id='explosao3' class='anima4'></div");
+        $("#explosao3").css("top",amigoY);
+        $("#explosao3").css("left",amigoX);
+        var tempoExplosao3=window.setInterval(resetaExplosao3, 1000);
+        
+        function resetaExplosao3() {
+            $("#explosao3").remove();
+            window.clearInterval(tempoExplosao3);
+            tempoExplosao3=null;           
+        }
+    } // Fim da função explosao3
 
 } // Fim da função start()
